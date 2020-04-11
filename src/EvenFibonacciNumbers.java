@@ -9,13 +9,10 @@
 public class EvenFibonacciNumbers {
 	public static void main(String[] args){
 
-		System.out.println(evenFibonacci(4_000_000)); // 4613732
+		System.out.println(findEvenFibonacci(4_000_000)); // 4613732
 	}
 
-
-	// given a number n, print the nth Fibonacci number
-	public static int evenFibonacci(int limit){
-
+	public static int findEvenFibonacci(int limit){
 		int sum = 0;
 		int tempA = 1;
 		int tempB = 0;
