@@ -12,7 +12,7 @@
 public class SumSquareDifference {
 	public static void main(String[] args) {
 
-		System.out.println(findSumSquareDiff(100));
+		System.out.println(findSumSquareDiff(100)); // 25164150
 	}
 	
 	private static long findSumSquareDiff(long range) {
