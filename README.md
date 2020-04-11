@@ -1,1 +1,1 @@
-Solutions to problems from the Project Euler archive at https://projecteuler.net/archives
+Solutions to problems from the Project Euler archive at https://projecteuler.net/archives. Goal is to complete the first 100 problems.
