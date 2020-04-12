@@ -21,7 +21,7 @@ public class LargestPrimeFactor {
 	}
 
 	private static boolean isPrime(long x){
-		for (long i = 2; i < x / 2; i++){
+		for (long i = 2; i < x; i++){
 			if (x % i == 0){
 				return false;
 			}
