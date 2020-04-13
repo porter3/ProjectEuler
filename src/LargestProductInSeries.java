@@ -50,7 +50,7 @@ public class LargestProductInSeries {
 		String[] numberStrArray = numberStr.split("(?<=\\G.)");
 		int[] numberIntArray = new int[numberStrArray.length];
 		for (int i = 0; i < numberStrArray.length; i++) {
-				numberIntArray[i] = Integer.parseInt(numberStrArray[i]);
+			numberIntArray[i] = Integer.parseInt(numberStrArray[i]);
 		}
 		return numberIntArray;
 	}
