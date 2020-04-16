@@ -5,7 +5,7 @@ import helpers.PrimeChecker;
  * Find the sum of all the primes below two million.
  */
 
-// Takes a little while longer. Will try and see if there's a more efficient solution in the future.
+// Takes a little while to run. Will try and see if there's a more efficient solution in the future.
 
 public class SummationOfPrimes {
 	public static void main(String[] args) {
