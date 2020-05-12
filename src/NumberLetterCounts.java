@@ -1,3 +1,5 @@
+import java.util.Map;
+
 /*
  * If the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
  * 
@@ -10,7 +12,6 @@
 public class NumberLetterCounts {
 
 	public static void main(String[] args) {
-
 		System.out.println(calculateNumberLetterSum(1000));	// 21124
 	}
 
@@ -29,25 +30,25 @@ public class NumberLetterCounts {
 		
 		// if the number has one digit:
 		if (digits.length == 1) {
-			letterCount += getLetterCountSingleDigit(digits[0]);
+			letterCount += singleDigitCounts.get(digits[0]);
 		}
 		
 		// if the number has two digits:
 		if (digits.length == 2) {
 			// if the number is between 11 and 19 inclusive:
 			if (digits[0] == 1) {
-				letterCount += getLetterCountTenToNineteen(digits[1]);
+				letterCount += tenToNineteenCounts.get(digits[1]);
 			}
 			else {
-				letterCount += getLetterCountTwentyToNinety(digits[0]);
+				letterCount += twentyToNinetyCounts.get(digits[0]);
 				if (digits[1] != 0) {
-					letterCount += getLetterCountSingleDigit(digits[1]);
+					letterCount += singleDigitCounts.get(digits[1]);
 				}
 			}
 		}
 		
 		if (digits.length == 3) {
-			letterCount += getLetterCountSingleDigit(digits[0]);
+			letterCount += singleDigitCounts.get(digits[0]);
 			letterCount += 7; // # of letters in "hundred"
 			
 			// number has non-zero digits after the first digit
@@ -56,106 +57,28 @@ public class NumberLetterCounts {
 			
 				// if the remaining two digits are between 10 and 19 inclusive:
 				if (digits[1] == 1) {
-					letterCount += getLetterCountTenToNineteen(digits[2]);
+					letterCount += tenToNineteenCounts.get(digits[2]);
 				}
 				else if (digits[1] > 1) {
-					letterCount += getLetterCountTwentyToNinety(digits[1]);
+					letterCount += twentyToNinetyCounts.get(digits[1]);
 					// if the last digit is not 0:
 					if (digits[2] != 0) {
-						letterCount += getLetterCountSingleDigit(digits[2]);
+						letterCount += singleDigitCounts.get(digits[2]);
 					}
 				}
 				// if ONLY the last digit is not zero:
 				else {
-					letterCount += getLetterCountSingleDigit(digits[2]);
+					letterCount += singleDigitCounts.get(digits[2]);
 				}
 			}
 		}
 		
 		if (digits.length == 4) {
-			letterCount += getLetterCountSingleDigit(digits[0]);
-			letterCount += 8; // # of letter in "thousand"
+			letterCount += singleDigitCounts.get(digits[0]);
+			letterCount += 8; // # of letters in "thousand"
 		}
 		
 		return letterCount;
-	}
-	
-	
-	private static int getLetterCountSingleDigit(int digit) {
-		switch(digit) {
-			case 1:
-				return 3;
-			case 2:
-				return 3;
-			case 3:
-				return 5;
-			case 4:
-				return 4;
-			case 5:
-				return 4;
-			case 6:
-				return 3;
-			case 7:
-				return 5;
-			case 8:
-				return 5;
-			case 9:
-				return 4;
-			default:
-				return 0;
-			
-		}
-	}
-	
-	private static int getLetterCountTenToNineteen(int secondDigit) {
-		// Number is ten for case 0, eleven for case 1, etc.
-		switch(secondDigit) {
-			case 0:
-				return 3;
-			case 1:
-				return 6;
-			case 2:
-				return 6;
-			case 3:
-				return 8;
-			case 4:
-				return 8;
-			case 5:
-				return 7;
-			case 6:
-				return 7;
-			case 7:
-				return 9;
-			case 8:
-				return 8;
-			case 9:
-				return 8;
-			default:
-				return 0;
-		}
-	}
-	
-	private static int getLetterCountTwentyToNinety(int firstDigit) {
-		switch(firstDigit) {
-			case 2:
-				return 6;
-			case 3:
-				return 6;
-			case 4:
-				return 5;
-			case 5:
-				return 5;
-			case 6:
-				return 5;
-			case 7:
-				return 7;
-			case 8:
-				return 6;
-			case 9:
-				return 6;
-			default:
-				return 0;
-		}
 	}
 	
 	private static int[] toIntArray(int n) {
@@ -166,4 +89,41 @@ public class NumberLetterCounts {
 		}
 		return intArr;
 	}
+	
+	private static Map<Integer, Integer> singleDigitCounts = Map.of(
+		1, 3,
+		2, 3,
+		3, 5,
+		4, 4,
+		5, 4,
+		6, 3,
+		7, 5,
+		8, 5,
+		9, 4			
+	);
+	
+	private static Map<Integer, Integer> tenToNineteenCounts = Map.of(
+		0, 3,
+		1, 6,
+		2, 6,
+		3, 8,
+		4, 8,
+		5, 7,
+		6, 7,
+		7, 9,
+		8, 8,
+		9, 8
+	);
+	
+	private static Map<Integer, Integer> twentyToNinetyCounts = Map.of(
+		2, 6,
+		3, 6,
+		4, 5,
+		5, 5,
+		6, 5,
+		7, 7,
+		8, 6,
+		9, 6
+	);
+	
 }
