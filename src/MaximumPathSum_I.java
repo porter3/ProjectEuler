@@ -50,63 +50,55 @@ public class MaximumPathSum_I {
 				   "70 11 33 28 77 73 17 78 39 68 17 57 " +
 				  "91 71 52 38 17 14 91 43 58 50 27 29 48 " +
 				 "63 66 04 68 89 53 67 30 73 16 69 87 40 31 " +
-				"04 62 98 27 23 09 70 98 73 93 38 53 60 04 23", 15
+				"04 62 98 27 23 09 70 98 73 93 38 53 60 04 23", 15, " "
 			)
-		);
+		);	// 1074
 	}
 	
-	private static int findMaximumPathSum(String triangleStr, int levels) {
-		String[] triangleStrArr = triangleStr.split("\\s");
+	private static int findMaximumPathSum(String triangleStr, int rows, String delimiter) {
+		int[][] triangle = toTriangleArray(triangleStr, rows, delimiter);
+
+		// initialize buffer row with the bottom row's values
+		int[] bufferRow = Arrays.copyOf(triangle[rows - 1], rows);
+
+		/*
+		Using a 'bottoms-up' approach to avoid trying every path.
+		Each iteration will compare i and i+1 of the elements of a buffer array
+		which will be initialized with the elements of the bottom row.
+		Whichever element is greater will be added to the ith element of the row above
+		and stored in the buffer array at the ith index.
+		 */
 		
-		// convert triangle to 2D array of ints
-		int[][] triangle = new int [levels][];
-		int triangleIterator = 0;
-		// iterate over level (row)
-		for (int i = 0; i < levels; i++) {
-			// create a new array for each level
-			triangle[i] = new int[i + 1];
-			// iterate over each element in level
-			for (int j = 0; j < i + 1; j++) {
-				triangle[i][j] = Integer.parseInt(triangleStrArr[triangleIterator]);
-				System.out.print(triangle[i][j] + " ");
-				triangleIterator++;
-			}
-			System.out.println();
-		}
-		
-		int maxPathSum = 0;
-		int pathSum = 0;
-		int greaterParent = 0;
-		int rowIndex;
-		// the indices of an element's 'children' will be: (that element's index + the child's row), (that element's index + the child's row + 1)
-		
-		// using a 'bottoms-up' approach to avoid trying every path. Should be able to achieve that trying the greatest path from each element in the bottom row
-		
-		// iterate over an element on the bottom level
-		for (int i = 0; i < levels; i++) {
-			pathSum = triangle[levels - 1][i];
-			rowIndex = i;
-			// iterate over the path to the top
-			for (int j = levels; j > 0; j--) {
-				System.out.println("current row: " + (j - 1));
-				// conditionals for if an element is at the beginning or end of the row (avoiding IndexOutOfBounds)
-				int parentA = rowIndex != 0 ? triangle[j - 2][rowIndex - 1] : 0;
-				int parentB = rowIndex != (triangle[j - 1].length - 1) ? triangle[j - 2][rowIndex] : 0;
-				if (parentA > parentB) {
-					greaterParent = parentA;
-					rowIndex -= 1;
+		// iterate over bottom row of triangle
+		for (int i = rows; i > 1; i--) {
+			// iterate over each element in buffer row
+			for (int j = 0; j < i - 1; j++) {
+				if (bufferRow[j] > bufferRow[j + 1]) {
+					bufferRow[j] = bufferRow[j] + triangle[i - 2][j];
 				} else {
-					greaterParent = parentB;
+					bufferRow[j] = bufferRow[j + 1] + triangle[i - 2][j];
 				}
-				System.out.println("Greater parent: " + greaterParent);
-				pathSum += greaterParent;
-			}
-			if (pathSum > maxPathSum) {
-				maxPathSum = pathSum;
 			}
 		}
-		
-		return maxPathSum;
+		return Arrays.stream(bufferRow).max().getAsInt();
 	}
 
+	private static int[][] toTriangleArray(String triangleStr, int rows, String delimiter) {
+		String[] triangleStrArr = triangleStr.split(delimiter);
+
+		// convert triangle to 2D array of ints
+		int[][] triangle = new int [rows][];
+		int triangleIterator = 0;
+		// iterate over row
+		for (int i = 0; i < rows; i++) {
+			// create a new array for each row
+			triangle[i] = new int[i + 1];
+			// iterate over each element in row and assign int value
+			for (int j = 0; j < i + 1; j++) {
+				triangle[i][j] = Integer.parseInt(triangleStrArr[triangleIterator]);
+				triangleIterator++;
+			}
+		}
+		return triangle;
+	}
 }
